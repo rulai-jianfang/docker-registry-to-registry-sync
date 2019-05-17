@@ -97,6 +97,7 @@ requests.exceptions.ConnectionError: ('Connection aborted.', FileNotFoundError(2
 
 ## Problem 2
 Need add dst user name and password to the config.xml, also the port number of the source and destination url
+
 ```
 source_registry:
   url: https://source.xxx.com:5000
@@ -111,6 +112,82 @@ destination_registry:
 ```
 
 
+## Problem 3
+Even your two private registryies are not ssl enabled, you still need use https instead of http, ssl verfication is turned off by default, or you will get error message listed below:
+
+```
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 601, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.6/http/client.py", line 1331, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.6/http/client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.6/http/client.py", line 279, in _read_status
+from urllib.parse import urlparse
+    raise BadStatusLine(line)
+http.client.BadStatusLine:
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/site-packages/requests/adapters.py", line 440, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 639, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.6/site-packages/urllib3/util/retry.py", line 357, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.6/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 601, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 387, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 2, in raise_from
+  File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 383, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.6/http/client.py", line 1331, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.6/http/client.py", line 297, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.6/http/client.py", line 279, in _read_status
+    raise BadStatusLine(line)
+urllib3.exceptions.ProtocolError: ('Connection aborted.', BadStatusLine('\x15\x03\x01\x00\x02\x02\n',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "docker-registry-to-registry-sync.py", line 77, in <module>
+    password=src_password)
+  File "/usr/local/lib/python3.6/site-packages/docker_registry_client/DockerRegistryClient.py", line 28, in __init__
+    api_timeout=api_timeout)
+  File "/usr/local/lib/python3.6/site-packages/docker_registry_client/_BaseClient.py", line 292, in BaseClient
+    v2_client.check_status()
+  File "/usr/local/lib/python3.6/site-packages/docker_registry_client/_BaseClient.py", line 172, in check_status
+    return self._http_call('/v2/', get)
+  File "/usr/local/lib/python3.6/site-packages/docker_registry_client/_BaseClient.py", line 55, in _http_call
+    response = self._http_response(url, method, data=data, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/docker_registry_client/_BaseClient.py", line 265, in _http_response
+    data=data, headers=header, **self.method_kwargs)
+  File "/usr/local/lib/python3.6/site-packages/requests/api.py", line 72, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/requests/api.py", line 58, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/requests/sessions.py", line 508, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.6/site-packages/requests/sessions.py", line 618, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.6/site-packages/requests/adapters.py", line 490, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', BadStatusLine('\x15\x03\x01\x00\x02\x02\n',))
+
+```
 
 
 
