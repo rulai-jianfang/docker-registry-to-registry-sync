@@ -1,4 +1,4 @@
-## Some problems fixed
+## Some problems fixed when We sync from private to private registry v2 sync up, better using the python file to test on local, then run the container later
 
 ## Problem 1
 ### Running via Docker:
@@ -54,12 +54,14 @@ Create a `config.yml` file. Example:
 
 ```yaml
 source_registry:
-  url: https://docker.example.com
+  url: https://docker.example.com:5000
   username: some_user
   password: some_password
 
 destination_registry:
   url: http://127.0.0.1:5000
+    username: some_user
+  password: some_password
 
 repositories:
   - company/super-project
