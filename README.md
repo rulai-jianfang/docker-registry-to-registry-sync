@@ -101,14 +101,14 @@ Need add dst user name and password to the config.xml, also the port number of t
 ```
 source_registry:
   url: https://source.xxx.com:5000
-  username: xxxxx
-  password: xxxxx
+  username: <source username>
+  password: <source password>
 
 
 destination_registry:
   url: https://dst.xxx.com:5000
-  username: yyyyy
-  password: yyyyy
+  username: <destination username>
+  password: <destination password>
 ```
 
 
