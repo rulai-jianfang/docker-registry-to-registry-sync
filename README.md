@@ -115,6 +115,21 @@ destination_registry:
 ## Problem 3
 Even your two private registries are not ssl enabled, you still need use https instead of http, ssl verfication is turned off by default, or you will get error message listed below:
 
+Working:
+```
+  url: https://source.xxx.com:5000
+
+  url: https://dst.xxx.com:5000
+```
+
+Bad:
+```
+  url: http://source.xxx.com:5000
+
+  url: http://dst.xxx.com:5000
+```
+
+
 ```
 Traceback (most recent call last):
   File "/usr/local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 601, in urlopen
