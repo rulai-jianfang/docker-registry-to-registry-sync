@@ -1,3 +1,40 @@
+Some problems fixed
+
+## Problem 1
+### Running via Docker:
+
+```
+docker run --rm -it \
+    -v $(pwd)/config.yml:/config.yml \
+    -v /var/run/docker.sock:/var/run/docker.sock
+    stefanhudelmaier/docker-registry-to-registry-sync
+```
+### Change docker.sock permission:
+When run the python file in current environment directly, we need set /var/run/docker.sock's permission to 667 or 777 
+When run with docker, then we need mount the /var/run/docker.sock into it
+```
+    -v /var/run/docker.sock:/var/run/docker.sock
+```
+
+## Problem 2
+Need add dst user name and password to the config.xml, also the port number of the source and destination url
+```
+source_registry:
+  url: https://source.xxx.com:5000
+  username: xxxxx
+  password: xxxxx
+
+
+destination_registry:
+  url: https://dst.xxx.com:5000
+  username: yyyyy
+  password: yyyyy
+```
+
+
+
+
+
 # docker-registry-to-registry-sync
 
 Tool for syncing docker images from one registry to another
@@ -51,8 +88,16 @@ including them in the `config.yml` file.
 ```
 docker run --rm -it \
     -v $(pwd)/config.yml:/config.yml \
+    -v /var/run/docker.sock:/var/run/docker.sock
     stefanhudelmaier/docker-registry-to-registry-sync
 ```
+### Change docker.sock permission:
+When run the python file in current environment directly, we need set /var/run/docker.sock's permission to 667 or 777 
+When run with docker, then we need mount the /var/run/docker.sock into it
+```
+    -v /var/run/docker.sock:/var/run/docker.sock
+```
+
 
 When using environment variables for the passwords:
 
