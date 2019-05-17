@@ -1,4 +1,4 @@
-## Some problems fixed when We sync from private to private registry v2 sync up, better using the python file to test on local, then run the container later
+## Some problems fixed when we sync from private to private registry v2 sync up, better using the python file to test on local, then run the container later
 
 ## Problem 1
 ### Running via Docker:
