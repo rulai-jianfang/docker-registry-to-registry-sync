@@ -113,7 +113,7 @@ destination_registry:
 
 
 ## Problem 3
-Even your two private registryies are not ssl enabled, you still need use https instead of http, ssl verfication is turned off by default, or you will get error message listed below:
+Even your two private registries are not ssl enabled, you still need use https instead of http, ssl verfication is turned off by default, or you will get error message listed below:
 
 ```
 Traceback (most recent call last):
