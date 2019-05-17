@@ -1,0 +1,17 @@
+source_registry:
+  url: https://source.xxx.com:5000
+  username: <source username>
+  password: <source password>
+
+
+destination_registry:
+  url: https://destination.xxx.com:5000
+  username: <destination username>
+  password: <destination password>
+
+
+
+repositories:
+  - nginx
+  - redis
+  - cassandra
