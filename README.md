@@ -9,13 +9,13 @@ docker run --rm -it \
     -v /var/run/docker.sock:/var/run/docker.sock
     stefanhudelmaier/docker-registry-to-registry-sync
 ```
-### Change docker.sock permission and mount the docker.sock into container or it will incur 'file not found' error:
+### Change docker.sock permission and mount the docker.sock into container or it will incur 'file not found' / 'permission denied' errors:
 When run the python file in current environment directly, we need set /var/run/docker.sock's permission to 667 or 777 
 When run with docker, then we need mount the /var/run/docker.sock into it
 ```
     -v /var/run/docker.sock:/var/run/docker.sock
 ```
-error message:
+Error message for 'file not found':
 ```
 sudo docker run --rm -it -v $(pwd)/config.yml:/config.yml stefanhudelmaier/docker-registry-to-registry-sync
 Traceback (most recent call last):
@@ -93,6 +93,78 @@ requests.exceptions.ConnectionError: ('Connection aborted.', FileNotFoundError(2
 
 ```
 
+Error message for 'permission denied'
+```
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1239, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1285, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1234, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1026, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 964, in send
+    self.connect()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/docker/transport/unixconn.py", line 43, in connect
+    sock.connect(self.unix_socket)
+PermissionError: [Errno 13] Permission denied
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 641, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/util/retry.py", line 368, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/packages/six.py", line 685, in reraise
+    raise value.with_traceback(tb)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 603, in urlopen
+    chunked=chunked)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/urllib3/connectionpool.py", line 355, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.6/http/client.py", line 1239, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1285, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1234, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.6/http/client.py", line 1026, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.6/http/client.py", line 964, in send
+    self.connect()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/docker/transport/unixconn.py", line 43, in connect
+    sock.connect(self.unix_socket)
+urllib3.exceptions.ProtocolError: ('Connection aborted.', PermissionError(13, 'Permission denied'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/docker/models/images.py", line 358, in list
+    resp = self.client.api.images(name=name, all=all, filters=filters)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/docker/api/image.py", line 89, in images
+    res = self._result(self._get(self._url("/images/json"), params=params),
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/docker/utils/decorators.py", line 46, in inner
+    return f(self, *args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/docker/api/client.py", line 230, in _get
+    return self.get(url, **self._set_request_timeout(kwargs))
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/requests/sessions.py", line 546, in get
+    return self.request('GET', url, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/requests/adapters.py", line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', PermissionError(13, 'Permission denied'))
+```
 
 
 ## Problem 2
