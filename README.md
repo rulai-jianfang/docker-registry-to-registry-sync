@@ -185,6 +185,7 @@ destination_registry:
 
 
 ## Problem 3
+## You better enable ssl or the sync will give error something like 'ssl3 version number error'
 Even your two private registries are not ssl enabled, you still need use https instead of http, ssl verfication is turned off by default, or you will get error message listed below:
 
 Working:
